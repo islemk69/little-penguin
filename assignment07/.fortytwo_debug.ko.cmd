@@ -1,1 +1,0 @@
-savedcmd_fortytwo_debug.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T /usr/src/linux-thor-kernel/scripts/module.lds -o fortytwo_debug.ko fortytwo_debug.o fortytwo_debug.mod.o .module-common.o
