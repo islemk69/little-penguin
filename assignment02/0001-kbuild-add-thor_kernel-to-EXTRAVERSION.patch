@@ -1,7 +1,7 @@
-From ea390cdab9626773d4ed6ed14550a0e8340c8c52 Mon Sep 17 00:00:00 2001
+From c26811a07a272622b41afc1591f3e96f991191e7 Mon Sep 17 00:00:00 2001
 From: islemk69 <islemkaismoun@gmail.com>
-Date: Fri, 9 Jan 2026 11:43:46 +0100
-Subject: [PATCH] kbuild: change EXTRAVERSION to -thor_kernel
+Date: Mon, 2 Mar 2026 16:31:50 +0100
+Subject: [PATCH] kbuild: add -thor_kernel to EXTRAVERSION
 
 Signed-off-by: islemk69 <islemkaismoun@gmail.com>
 ---
@@ -9,14 +9,14 @@ Signed-off-by: islemk69 <islemkaismoun@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index 665b79aa21b8..f2b62748bf77 100644
+index 244608598..2251b1af7 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -2,7 +2,7 @@
- VERSION = 6
- PATCHLEVEL = 19
+ VERSION = 7
+ PATCHLEVEL = 0
  SUBLEVEL = 0
--EXTRAVERSION = -rc4
+-EXTRAVERSION = -rc2
 +EXTRAVERSION = -thor_kernel
  NAME = Baby Opossum Posse
  

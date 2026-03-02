@@ -1,5 +1,5 @@
 # Nom du module (doit correspondre au nom du fichier .c)
-obj-m += main.o
+obj-m += hello_world.o
 
 # Chemin vers les sources du noyau actuel
 KDIR := /lib/modules/$(shell uname -r)/build
