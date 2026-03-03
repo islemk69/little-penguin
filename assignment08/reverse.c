@@ -9,10 +9,6 @@
 #include <linux/uaccess.h>
 #include <linux/mutex.h>
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Ton Nom <ton@email.com>");
-MODULE_DESCRIPTION("A fixed and clean reverse character device");
-
 static DEFINE_MUTEX(str_lock);
 static char str[PAGE_SIZE];
 
@@ -32,7 +28,6 @@ static ssize_t myfd_read(struct file *fp, char __user *user,
 		return -ENOMEM;
 
 	mutex_lock(&str_lock);
-	/* Inversion sécurisée : on utilise des int pour la boucle */
 	for (i = len - 1, j = 0; i >= 0; i--, j++)
 		tmp[j] = str[i];
 	tmp[j] = '\0';
@@ -53,7 +48,6 @@ static ssize_t myfd_write(struct file *fp, const char __user *user,
 		return -EINVAL;
 
 	mutex_lock(&str_lock);
-	/* On remet le buffer à zéro avant d'écrire */
 	memset(str, 0, PAGE_SIZE);
 	res = simple_write_to_buffer(str, PAGE_SIZE - 1, offs, user, size);
 	mutex_unlock(&str_lock);
@@ -85,3 +79,7 @@ static void __exit myfd_cleanup(void)
 
 module_init(myfd_init);
 module_exit(myfd_cleanup);
+
+MODULE_LICENSE("Free To Play");
+MODULE_AUTHOR("Islem the terrible");
+MODULE_DESCRIPTION("Big kernel linux improvment");

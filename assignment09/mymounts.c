@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-2.0
+
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
@@ -10,11 +12,6 @@
 #include <linux/dcache.h>
 #include <linux/path.h>
 #include <linux/slab.h>
-
-/* * IMPORTANT : Grâce au Makefile (-I.../fs), on peut inclure ce fichier interne.
- * Il contient TOUTES les définitions exactes (mount, mnt_namespace, mnt_pcp...)
- * Pas besoin de les redéfinir à la main !
- */
 #include "mount.h"
 
 static int mymounts_show(struct seq_file *m, void *v)
@@ -26,7 +23,6 @@ static int mymounts_show(struct seq_file *m, void *v)
     char *path_buf;
     char *path_ptr;
 
-    /* On récupère le namespace */
     ns = (struct mnt_namespace *)current->nsproxy->mnt_ns;
     if (!ns)
         return 0;
@@ -35,15 +31,9 @@ static int mymounts_show(struct seq_file *m, void *v)
     if (!path_buf)
         return -ENOMEM;
 
-    /* --- PARCOURS DE L'ARBRE ROUGE-NOIR --- */
     for (node = rb_first(&ns->mounts); node; node = rb_next(node)) {
-
-        /* * MAGIE : Ici, struct mount vient de mount.h
-         * L'offset est donc garanti correct par le compilateur !
-         */
         mnt = rb_entry(node, struct mount, mnt_node);
 
-        /* Sécurité anti-crash */
         if (!mnt || !mnt->mnt.mnt_root || !mnt->mnt.mnt_sb)
             continue;
 
@@ -89,4 +79,8 @@ static void __exit mymounts_exit(void)
 
 module_init(mymounts_init);
 module_exit(mymounts_exit);
-MODULE_LICENSE("GPL");
+
+
+MODULE_LICENSE("Free To Play");
+MODULE_AUTHOR("Islem the terrible");
+MODULE_DESCRIPTION("Big kernel linux improvment");
