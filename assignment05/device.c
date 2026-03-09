@@ -10,6 +10,8 @@
 #define MY_LOGIN "ikaismou"
 #define MY_LOGIN_LEN 8
 
+
+//cat /dev/frotytwo
 static ssize_t my_read(struct file *file, char __user *buf,
 		       size_t count, loff_t *ppos)
 {
@@ -24,7 +26,7 @@ static ssize_t my_read(struct file *file, char __user *buf,
 	return MY_LOGIN_LEN;
 }
 
-
+//echo -n "[string]]" |  tee /dev/fortytwo
 static ssize_t my_write(struct file *file, const char __user *buf,
 			size_t count, loff_t *ppos)
 {

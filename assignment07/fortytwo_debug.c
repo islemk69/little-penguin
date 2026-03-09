@@ -15,13 +15,14 @@
 struct dentry *dir = NULL;
 struct mutex foo_mutex;
 char *foo_data = NULL;
-size_t foo_size = 0
+size_t foo_size = 0;
 
 static ssize_t id_read(struct file *f, char __user *buf, size_t count, loff_t *ppos)
 {
     return simple_read_from_buffer(buf, count, ppos, MY_LOGIN, MY_LOGIN_LEN);
 }
 
+//only ikaismou match
 static ssize_t id_write(struct file *f, const char __user *buf, size_t count, loff_t *ppos)
 {
     char kbuf[MY_LOGIN_LEN + 1];
@@ -41,6 +42,8 @@ static const struct file_operations id_fops = {
     .write = id_write,
 };
 
+
+//update systemlock and print it
 static ssize_t jiffies_read(struct file *f, char __user *buf, size_t count, loff_t *ppos)
 {
     char tmp[32];
@@ -65,6 +68,8 @@ static ssize_t foo_read(struct file *f, char __user *buf, size_t count, loff_t *
     return ret;
 }
 
+
+//foo open epty file that can store 40% of character with mutex security
 static ssize_t foo_write(struct file *f, const char __user *buf, size_t count, loff_t *ppos)
 {
     if (count > PAGE_SIZE)
@@ -116,6 +121,6 @@ static void __exit my_exit(void)
 module_init(my_init);
 module_exit(my_exit);
 
-MODULE_LICENSE("Free To Play");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Islem the terrible");
 MODULE_DESCRIPTION("Big kernel linux improvment");
