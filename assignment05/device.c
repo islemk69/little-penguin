@@ -81,6 +81,6 @@ static void __exit my_exit(void)
 module_init(my_init);
 module_exit(my_exit);
 
-MODULE_LICENSE("Free To Play");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Islem the terrible");
 MODULE_DESCRIPTION("Big kernel linux improvment");

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-2.0
+
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -14,6 +16,6 @@ static void __exit hello_exit(void){
 module_init(hello_init);
 module_exit(hello_exit);
 
-MODULE_LICENSE("Free To Play");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Islem the terrible");
 MODULE_DESCRIPTION("Big kernel linux improvment");

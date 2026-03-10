@@ -81,6 +81,6 @@ module_init(mymounts_init);
 module_exit(mymounts_exit);
 
 
-MODULE_LICENSE("Free To Play");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Islem the terrible");
 MODULE_DESCRIPTION("Big kernel linux improvment");

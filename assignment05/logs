@@ -2,7 +2,7 @@
 [    4.468251] e1000: enp0s3 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
 [ 6031.793348] systemd-nsresou (340) used greatest stack depth: 12184 bytes left
 [12213.177398] device: loading out-of-tree module taints kernel.
-[12213.177582] device: module license 'Free To Play' taints kernel.
+[12213.177582] device: module license 'GPL' taints kernel.
 [12213.177679] Disabling lock debugging due to kernel taint
 [12213.177771] device: module license taints kernel.
 [12213.178210] Module fortytwo chargé et device enregistré

@@ -80,6 +80,6 @@ static void __exit myfd_cleanup(void)
 module_init(myfd_init);
 module_exit(myfd_cleanup);
 
-MODULE_LICENSE("Free To Play");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Islem the terrible");
 MODULE_DESCRIPTION("Big kernel linux improvment");
