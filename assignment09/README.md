@@ -15,6 +15,78 @@ To demonstrate an understanding of the subject, here are the key concepts for th
     *   By securely locking the namespace semaphore (`down_read(&namespace_sem)`), the module iterates over the double-linked list `mnt_ns->list` utilizing the fundamental `list_for_each_entry` kernel macro.
     *   For each mount struct found within the namespace, the module securely extracts and formats the mount point name (`mnt->mnt_root->d_name.name`) and the directory mounting path.
 
+``` bash
+1. L'accès initial (ns = ...)
+
+On part de l'utilisateur (current) pour trouver son "classeur" de montages personnels.
+Bash
+
+[ current (task_struct) ]  <-- Le processus qui fait "cat"
+       |
+       +--> [ nsproxy ]    <-- Le conteneur de namespaces
+               |
+               v
+        [ mnt_namespace (ns) ]  <-- TON OBJET 'ns'
+        |  - (int) seq          |
+        |  - (rb_root) mounts   | <--- La racine de l'arbre est ICI
+        +-----------------------+
+
+2. L'Arbre Rouge-Noir (&ns->mounts et node)
+
+Dans ce classeur, les montages sont rangés dans un arbre binaire trié. rb_first va chercher le nœud le plus à gauche.
+Bash
+
+      [ &ns->mounts ]  (Racine de l'arbre)
+             /   \
+          [node] [node]
+          /   \
+    [node]    [node]
+      ^
+      |
+    node = rb_first(...)  <-- Le premier élément "physique" trouvé
+
+3. Le "Casting" (mnt = rb_entry(...))
+
+Le node n'est qu'un petit morceau. On utilise la macro rb_entry pour retrouver la grosse structure qui l'entoure.
+Bash
+
++------------------------------------------+
+| struct mount (mnt)                       |
+|  - (char*) mnt_devname: "/dev/sda1"      |
+|  - (struct super_block*) mnt_sb          |
+|                                          |
+|  +------------------------------------+  |
+|  | mnt_node (struct rb_node) <--------|--+--- C'est ton 'node' actuel
+|  +------------------------------------+  |
++------------------------------------------+
+
+4. La préparation du paquet (struct path p)
+
+Tu extrais deux pointeurs de ton gros dossier mnt pour les mettre dans une petite boîte p. C'est ton "ticket" pour la fonction de traduction.
+Bash
+
+      [ struct mount (mnt) ]          [ struct path p ]
+      |                    |          +-----------------+
+      |  .mnt  ------------|--------->| .mnt            |
+      |  .mnt_root --------|--------->| .dentry         |
+      +--------------------+          +-----------------+
+                                        (La boîte est prête)
+
+5. La traduction finale (path_ptr = d_path(...))
+
+Tu donnes ta boîte p et ton buffer vide à d_path. Elle remonte l'arborescence et écrit le texte à la fin du buffer (car elle travaille à l'envers !).
+Bash
+
+ [ struct path p ] --( Traduction )--> [ path_buf (4096 octets) ]
+                                       |                        |
+                                       |  [ ... /home/islem \0] |
+                                       |        ^               |
+                                       +--------|---------------+
+                                                |
+                                             path_ptr
+                                     (Pointe sur le début du texte)
+```
+
 ## How to Verify
 To verify the completion of the assignment, the evaluator can test the following:
 
