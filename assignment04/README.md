@@ -29,7 +29,23 @@ To verify the completion of the assignment, the evaluator can test the following
 2.  **Trigger the Event:**
     Physically unplug and plug back in a USB keyboard. Alternatively, simulate the kernel event for USB additions:
     ```bash
-    sudo udevadm trigger --action=add --subsystem-match=usb
+    ➜  ~ qemu-system-x86_64 \               
+    -m 8G -smp 12 -enable-kvm -cpu host \
+    -machine q35 \
+    -bios /usr/share/ovmf/OVMF.fd \
+    -drive file="./ft_linux_1.vdi",format=vdi,if=none,id=bootdisk \
+    -device ich9-ahci,id=ahci \
+    -device ide-hd,bus=ahci.0,drive=bootdisk \
+    -device qemu-xhci,id=usb \
+    -device usb-tablet \
+    -device usb-kbd,id=mon_clavier \
+    -device usb-mouse,id=ma_souris \
+    -vga virtio \
+    -nic user,model=e1000,hostfwd=tcp::9999-:22
+
+    device_del mon_clavier
+
+    device_add usb-kbd,id=mon_clavier
     ```
 
 3.  **Check Verification:**
